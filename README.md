@@ -33,6 +33,34 @@ Four commands. Four human checkpoints. One working feature.
 
 Full walkthrough: **[Your First Feature](https://github.com/nwave-ai/nwave/tree/main/docs/guides/tutorial-first-feature.md)**
 
+## Control Your Token Spend — Without Sacrificing Quality
+
+nWave enforces proven engineering practices — TDD, peer review, mutation testing — at every step. `/nw:rigor` lets you scale the depth of those practices to match the stakes of your work. A config tweak doesn't need the same investment as a security-critical feature. You pick the profile; nWave enforces it everywhere.
+
+```
+/nw:rigor                    # Interactive: compare profiles, pick one
+/nw:rigor lean               # Quick switch: apply immediately
+/nw:rigor custom             # Build your own: choose each setting
+```
+
+| Profile | Agent | Reviewer | Review | TDD | Mutation | Est. Cost | When to Use |
+|---------|-------|----------|--------|-----|----------|-----------|-------------|
+| **lean** | haiku | -- | no | R→G | no | lowest | Spikes, config, docs |
+| **standard** ⭐ | sonnet | haiku | single | full 5-phase | no | moderate | Most work |
+| **thorough** | opus | sonnet | double | full 5-phase | no | higher | Critical features |
+| **exhaustive** | opus | opus | double | full 5-phase | ≥80% kill | highest | Production core |
+| **custom** | *you choose* | *you choose* | *you choose* | *you choose* | *you choose* | depends | Your exact combo |
+| **inherit** | *yours* | haiku | single | full 5-phase | no | varies | You pick the model |
+
+Pick once — it persists across sessions. Change anytime. Every `/nw:deliver`, `/nw:design`, `/nw:review` respects your choice automatically. Need a combination no preset covers? `/nw:rigor custom` walks you through each setting.
+
+```
+/nw:rigor lean        # prototype fast
+/nw:deliver           # haiku crafter, no review, RED→GREEN only
+/nw:rigor standard    # ready to ship — bump up
+/nw:deliver           # sonnet crafter, haiku reviewer, full TDD
+```
+
 ## How It Works
 
 ```text

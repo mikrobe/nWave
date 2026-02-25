@@ -59,6 +59,32 @@ class DESConfig:
             return {}
 
     @property
+    def skill_tracking_enabled(self) -> bool:
+        """
+        Check if skill loading tracking is enabled.
+
+        Priority: DES_SKILL_TRACKING env var > config file > default (False).
+
+        Returns:
+            True if skill tracking enabled, False otherwise (defaults to False)
+        """
+        env_override = os.environ.get("DES_SKILL_TRACKING")
+        if env_override is not None:
+            return env_override.lower() in ("true", "1", "yes")
+        strategy = self._config_data.get("skill_tracking", "disabled")
+        return strategy != "disabled"
+
+    @property
+    def skill_tracking_strategy(self) -> str:
+        """
+        Get skill tracking strategy.
+
+        Returns:
+            Strategy string: "disabled", "passive-logging", or "token-tracking"
+        """
+        return self._config_data.get("skill_tracking", "disabled")
+
+    @property
     def audit_logging_enabled(self) -> bool:
         """
         Check if audit logging is enabled.
@@ -72,3 +98,47 @@ class DESConfig:
         if env_override is not None:
             return env_override.lower() in ("true", "1", "yes")
         return self._config_data.get("audit_logging_enabled", True)
+
+    @property
+    def rigor_profile(self) -> str:
+        """Get rigor profile name. Default: 'standard'."""
+        return self._config_data.get("rigor", {}).get("profile", "standard")
+
+    @property
+    def rigor_agent_model(self) -> str:
+        """Get agent model from rigor config. Default: 'sonnet'."""
+        return self._config_data.get("rigor", {}).get("agent_model", "sonnet")
+
+    @property
+    def rigor_reviewer_model(self) -> str:
+        """Get reviewer model. Default: 'haiku'."""
+        return self._config_data.get("rigor", {}).get("reviewer_model", "haiku")
+
+    @property
+    def rigor_tdd_phases(self) -> tuple[str, ...]:
+        """Get TDD phases as tuple. Default: full 5-phase."""
+        phases = self._config_data.get("rigor", {}).get(
+            "tdd_phases",
+            ["PREPARE", "RED_ACCEPTANCE", "RED_UNIT", "GREEN", "COMMIT"],
+        )
+        return tuple(phases)
+
+    @property
+    def rigor_review_enabled(self) -> bool:
+        """Check if peer review is enabled. Default: True."""
+        return self._config_data.get("rigor", {}).get("review_enabled", True)
+
+    @property
+    def rigor_double_review(self) -> bool:
+        """Check if double review is enabled. Default: False."""
+        return self._config_data.get("rigor", {}).get("double_review", False)
+
+    @property
+    def rigor_mutation_enabled(self) -> bool:
+        """Check if mutation testing is enabled. Default: False."""
+        return self._config_data.get("rigor", {}).get("mutation_enabled", False)
+
+    @property
+    def rigor_refactor_pass(self) -> bool:
+        """Check if refactoring pass is enabled. Default: True."""
+        return self._config_data.get("rigor", {}).get("refactor_pass", True)
