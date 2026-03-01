@@ -1,16 +1,12 @@
 # nWave — AI-Powered Wave Development for GitHub Copilot
 
 You are operating with the **nWave methodology** for structured, wave-based software development.
+All guidance lives in the `/nWave/` directory of this repository. You are doc-driven: read the
+documents, adopt the agent roles, follow the command specs, apply the skills, and produce
+artefacts using the templates. There is nothing to install or execute.
 
-**Orchestrate → Wave → Deliver.**
-
----
-
-## What is nWave?
-
-nWave is a disciplined AI workflow framework that orchestrates specialized agents through sequential development **waves**. Every feature follows a structured lifecycle from discovery to deployment, enforcing TDD, phase tracking, and deterministic validation at every step.
-
-**Core mission**: Replace ad-hoc AI coding with a structured, auditable, wave-based methodology.
+> **Start here**: Read [`/nWave/README.md`](/nWave/README.md) for a full overview of the framework
+> before doing anything else in an unfamiliar project.
 
 ---
 
@@ -31,8 +27,8 @@ DISCOVER → DISCUSS → DESIGN → DEVOPS → DISTILL → DELIVER
 | DISTILL | `/nw:distill` | acceptance-designer | BDD test scenarios (Given-When-Then) |
 | DELIVER | `/nw:deliver` | software-crafter | Working code via Outside-In TDD |
 
-**Cross-wave agents**: researcher, troubleshooter, documentarist, visual-architect  
-**Peer reviewers**: 11 specialist review agents (one per wave + cross-cutting reviewers)
+**Cross-wave agents**: researcher, troubleshooter, documentarist  
+**Peer reviewers**: one reviewer agent per specialist role (see `/nWave/agents/`)
 
 ---
 
@@ -41,33 +37,33 @@ DISCOVER → DISCUSS → DESIGN → DEVOPS → DISTILL → DELIVER
 | Command | Purpose |
 |---------|---------|
 | `/nw:new` | Start a new feature wave sequence |
-| `/nw:discover` | Run DISCOVER wave — validate opportunity and gather evidence |
-| `/nw:discuss` | Run DISCUSS wave — produce user stories and acceptance criteria |
-| `/nw:design` | Run DESIGN wave — produce architecture and component boundaries |
-| `/nw:devops` | Run DEVOPS wave — produce infrastructure and CI/CD plan |
-| `/nw:distill` | Run DISTILL wave — produce BDD test scenarios |
-| `/nw:deliver` | Run DELIVER wave — implement via Outside-In TDD |
-| `/nw:execute` | Execute a single task within the current phase |
-| `/nw:continue` | Resume interrupted wave from last checkpoint |
+| `/nw:discover` | DISCOVER wave — validate opportunity, gather evidence |
+| `/nw:discuss` | DISCUSS wave — produce user stories and acceptance criteria |
+| `/nw:design` | DESIGN wave — produce architecture and component boundaries |
+| `/nw:devops` | DEVOPS wave — produce infrastructure and CI/CD plan |
+| `/nw:distill` | DISTILL wave — produce BDD test scenarios |
+| `/nw:deliver` | DELIVER wave — implement via Outside-In TDD |
+| `/nw:execute` | Execute a single task within the current wave |
+| `/nw:continue` | Resume an interrupted wave from last checkpoint |
 | `/nw:review` | Run peer review against current wave output |
-| `/nw:rigor` | Run exhaustive quality audit (ACID, security, concurrency) |
-| `/nw:refactor` | Refactor code while keeping tests green |
+| `/nw:rigor` | Exhaustive quality audit (correctness, security, concurrency) |
+| `/nw:refactor` | Refactor code while keeping all tests green |
 | `/nw:research` | Deep research on a technical question |
 | `/nw:document` | Generate or update documentation |
 | `/nw:diagram` | Generate architecture or flow diagrams |
 | `/nw:roadmap` | Produce a feature roadmap |
 | `/nw:finalize` | Close out a wave, commit and update state |
-| `/nw:fast-forward` | Skip to a specific wave (experienced users only) |
+| `/nw:fast-forward` | Skip to a specific wave (requires explicit user confirmation) |
 | `/nw:forge` | Bootstrap a new project from scratch |
 | `/nw:mikado` | Apply Mikado method for safe large refactors |
-| `/nw:mutation-test` | Run mutation testing to validate test suite strength |
+| `/nw:mutation-test` | Validate test suite effectiveness |
 | `/nw:root-why` | 5-Whys root cause analysis |
 
 ---
 
 ## Intent Mapping
 
-Recognize these natural language patterns and map to commands:
+Recognize natural language and map to the correct command:
 
 | User Says | Command |
 |-----------|---------|
@@ -88,156 +84,243 @@ Recognize these natural language patterns and map to commands:
 | "plan the roadmap" | `/nw:roadmap` |
 | "done with this wave", "finalize" | `/nw:finalize` |
 | "why is this failing", "root cause" | `/nw:root-why` |
-| "mutation test", "check test suite" | `/nw:mutation-test` |
+| "check my tests", "mutation test" | `/nw:mutation-test` |
+
+---
+
+## How to Execute Any Wave (Doc-Driven Protocol)
+
+For every wave or command request, follow this exact reading order:
+
+1. **Read the command spec** — open `/nWave/tasks/nw/<command>.md` and follow it precisely.
+2. **Adopt the agent role** — read the matching agent in `/nWave/agents/nw-<agent-name>.md` to
+   understand its mindset, responsibilities, and output standards.
+3. **Apply relevant skills** — before producing output, consult the corresponding skill folder
+   at `/nWave/skills/<agent-name>/` to ensure rigor, completeness, and edge-case coverage.
+4. **Use the right template** — structure all artefacts using the closest template from
+   `/nWave/templates/`. Never invent output structure.
+5. **Check shared rules** — always honour `/nWave/data/wizard-shared-rules.md` which defines
+   cross-wave constraints all agents must respect.
+6. **Consult methodology/config data** — use `/nWave/data/methodologies/` and
+   `/nWave/data/config/` for canonical checklists, quality gates, and configuration constants.
+
+---
+
+## `/nWave/agents/` — Agent Specifications
+
+Each agent file defines: role identity, responsibilities, output format, quality bars, and
+behavioural constraints. **Adopt the agent's persona** when executing its wave.
+
+| Agent File | Role | Used In Wave |
+|------------|------|--------------|
+| `nw-product-discoverer.md` | Validates product opportunities through evidence | DISCOVER |
+| `nw-product-discoverer-reviewer.md` | Peer-reviews discovery output | DISCOVER review |
+| `nw-product-owner.md` | Produces user stories and acceptance criteria | DISCUSS |
+| `nw-product-owner-reviewer.md` | Peer-reviews requirements quality | DISCUSS review |
+| `nw-solution-architect.md` | Designs system architecture and component boundaries | DESIGN |
+| `nw-solution-architect-reviewer.md` | Peer-reviews architecture decisions | DESIGN review |
+| `nw-platform-architect.md` | Plans infrastructure, CI/CD, deployment strategy | DEVOPS |
+| `nw-platform-architect-reviewer.md` | Peer-reviews platform and ops decisions | DEVOPS review |
+| `nw-acceptance-designer.md` | Authors BDD test scenarios (Given-When-Then) | DISTILL |
+| `nw-acceptance-designer-reviewer.md` | Peer-reviews test scenario completeness | DISTILL review |
+| `nw-software-crafter.md` | Implements via Outside-In TDD | DELIVER |
+| `nw-software-crafter-reviewer.md` | Peer-reviews code quality and TDD discipline | DELIVER review |
+| `nw-functional-software-crafter.md` | Implements in a functional style | DELIVER (functional) |
+| `nw-researcher.md` | Deep technical research on any topic | Cross-wave |
+| `nw-researcher-reviewer.md` | Peer-reviews research quality | Cross-wave |
+| `nw-troubleshooter.md` | Root cause analysis and bug hunting | Cross-wave |
+| `nw-troubleshooter-reviewer.md` | Peer-reviews troubleshooting diagnosis | Cross-wave |
+| `nw-documentarist.md` | Produces and maintains documentation | Cross-wave |
+| `nw-documentarist-reviewer.md` | Peer-reviews documentation quality | Cross-wave |
+| `nw-data-engineer.md` | Data modelling, pipelines, storage design | Cross-wave |
+| `nw-data-engineer-reviewer.md` | Peer-reviews data engineering decisions | Cross-wave |
+| `nw-agent-builder.md` | Designs and builds new nWave agents | Framework extension |
+| `nw-agent-builder-reviewer.md` | Peer-reviews new agent definitions | Framework extension |
+
+---
+
+## `/nWave/tasks/nw/` — Command Specifications
+
+Each file is the **canonical definition** of a `/nw:*` command. Follow it exactly — do not
+invent steps, change sequencing, or omit required sections.
+
+| File | Command |
+|------|---------|
+| `new.md` | `/nw:new` |
+| `discover.md` | `/nw:discover` |
+| `discuss.md` | `/nw:discuss` |
+| `design.md` | `/nw:design` |
+| `devops.md` | `/nw:devops` |
+| `distill.md` | `/nw:distill` |
+| `deliver.md` | `/nw:deliver` |
+| `execute.md` | `/nw:execute` |
+| `continue.md` | `/nw:continue` |
+| `review.md` | `/nw:review` |
+| `rigor.md` | `/nw:rigor` |
+| `refactor.md` | `/nw:refactor` |
+| `research.md` | `/nw:research` |
+| `document.md` | `/nw:document` |
+| `diagram.md` | `/nw:diagram` |
+| `roadmap.md` | `/nw:roadmap` |
+| `finalize.md` | `/nw:finalize` |
+| `fast-forward.md` | `/nw:fast-forward` |
+| `forge.md` | `/nw:forge` |
+| `mikado.md` | `/nw:mikado` |
+| `mutation-test.md` | `/nw:mutation-test` |
+| `root-why.md` | `/nw:root-why` |
+
+---
+
+## `/nWave/skills/` — Deep Domain Playbooks
+
+Skills are **deep guidance files** grouped by agent. Before producing any wave deliverable,
+read the skills for the active agent. Skills define edge cases, quality bars, worked
+examples, and anti-patterns to avoid.
+
+Skill folders mirror agent names:
+
+```
+nWave/skills/
+├── product-discoverer/          # Discovery research techniques, validation patterns
+├── product-discoverer-reviewer/ # How to review discovery quality
+├── product-owner/               # Story writing, criteria precision, scope control
+├── product-owner-reviewer/      # How to review requirements completeness
+├── solution-architect/          # Architecture patterns, trade-off analysis
+├── solution-architect-reviewer/ # How to review architectural decisions
+├── platform-architect/          # Infrastructure patterns, CI/CD, observability
+├── platform-architect-reviewer/ # How to review platform decisions
+├── acceptance-designer/         # BDD scenario writing, coverage heuristics
+├── software-crafter/            # TDD discipline, Outside-In patterns, refactoring
+├── software-crafter-reviewer/   # How to review code and TDD quality
+├── functional-software-crafter/ # Functional programming patterns for DELIVER
+├── researcher/                  # Research methodology, source evaluation
+├── troubleshooter/              # Debugging frameworks, root cause techniques
+├── documentarist/               # Documentation standards and structure
+├── data-engineer/               # Data modelling, pipeline, storage patterns
+└── agent-builder/               # How to design new nWave agents
+```
+
+**Rule**: If a skill file exists for the active agent, it is mandatory reading before producing output.
+
+---
+
+## `/nWave/templates/` — Output Structure
+
+Templates define the **required structure** for all wave artefacts and framework documents.
+Always use the closest matching template. Never produce unstructured free-form output
+when a template exists.
+
+| Template File | Use For |
+|---------------|---------|
+| `deliver-outside-in-tdd.yaml` | TDD implementation plan and task breakdown (DELIVER) |
+| `design-architecture-interactive.yaml` | Architecture design session output (DESIGN) |
+| `devops-production-readiness.yaml` | Infrastructure and production readiness (DEVOPS) |
+| `discuss-requirements-interactive.yaml` | Requirements elicitation and user stories (DISCUSS) |
+| `distill-acceptance-tests.yaml` | BDD acceptance test scenarios (DISTILL) |
+| `nwave-complete-methodology.yaml` | Full methodology reference for wave orchestration |
+| `execution-log-template.yaml` | Wave execution log structure |
+| `roadmap-schema.yaml` | Roadmap artefact structure |
+| `AGENT_TEMPLATE.md` | Structure for defining a new agent |
+| `COMMAND_TEMPLATE.md` | Structure for defining a new command |
+| `COMMAND_TEMPLATE.yaml` | YAML form of a new command definition |
+| `REVIEWER_TEMPLATE.md` | Structure for defining a new reviewer agent |
+| `SKILL_TEMPLATE.md` | Structure for defining a new skill |
+| `step-tdd-cycle-schema.json` | Canonical TDD 5-phase cycle schema (v4.0) |
+| `validation-schemas.json` | All DES validation schemas for phase compliance |
+
+---
+
+## `/nWave/data/` — Methodology Reference and Configuration
+
+Data provides **canonical constants, shared rules, and methodology references** used across
+all waves. Always check here for authoritative values before assuming defaults.
+
+```
+nWave/data/
+├── wizard-shared-rules.md   # Cross-wave rules ALL agents must honour — read this first
+├── config/                  # Framework configuration constants
+├── methodologies/           # Methodology definitions and canonical checklists
+└── research/                # Reference research underpinning the framework
+```
+
+**`wizard-shared-rules.md` is mandatory** — it contains constraints that override any
+wave-specific behaviour. Read it at the start of every session.
 
 ---
 
 ## TDD 5-Phase Cycle (DELIVER wave)
 
-When implementing via `/nw:deliver`, always follow this exact cycle:
+When implementing via `/nw:deliver`, follow the canonical schema in
+`/nWave/templates/step-tdd-cycle-schema.json`:
 
-1. **PREPARE** — Set up test fixtures and scaffolding
-2. **RED_ACCEPTANCE** — Write failing acceptance test (BDD Given-When-Then)
-3. **RED_UNIT** — Write failing unit tests for the implementation
-4. **GREEN** — Write minimum code to make all tests pass
-5. **COMMIT** — Refactor, verify no regressions, commit with conventional message
+1. **PREPARE** — establish test fixtures, scaffolding, and preconditions
+2. **RED_ACCEPTANCE** — write a failing acceptance test (BDD Given-When-Then)
+3. **RED_UNIT** — write failing unit tests for the target behaviour
+4. **GREEN** — write the minimum code to make all tests pass
+5. **COMMIT** — refactor without regressions, commit with conventional message
 
-**STOP if you are:**
-- Writing production code before a failing test exists
-- Marking a phase complete without running the test suite
-- Batching multiple tasks into a single commit
-- Skipping the RED phase because the test "seems obvious"
-
----
-
-## DES — Deterministic Execution System
-
-nWave enforces deterministic behaviour through DES, which validates every agent step:
-
-- **Pre-tool-use**: Validates the next action before it executes
-- **Post-tool-use**: Validates the output after execution
-- **Subagent-stop**: Validates agent hand-off between waves
-
-DES enforces:
-- Phase sequencing (cannot skip waves without `/nw:fast-forward`)
-- TDD schema compliance (9 mandatory sections checked per phase)
-- Stale execution detection (abandoned phases are flagged)
-- Audit log of every agent action
+**STOP and do not proceed if:**
+- Production code would be written before a failing test exists
+- A phase is marked complete without verifying tests pass
+- Multiple unrelated tasks are batched into a single commit
+- The RED phase is being skipped because a test "seems obvious"
 
 ---
 
 ## Wave Output Artefacts
 
-Each wave produces structured artefacts stored in the project:
-
-| Wave | Artefact |
-|------|----------|
+| Wave | Artefact Location |
+|------|-------------------|
 | DISCOVER | `docs/discovery/opportunity-{id}.md` |
 | DISCUSS | `docs/stories/story-{id}.md` |
 | DESIGN | `docs/architecture/design-{id}.md` |
 | DEVOPS | `docs/devops/platform-{id}.md` |
 | DISTILL | `tests/acceptance/scenarios-{id}.feature` |
-| DELIVER | Source code + unit tests + commit |
+| DELIVER | Source code + test files + conventional commit |
 
 ---
 
-## Project Conventions (nWave Projects)
+## Commit Convention
 
-### Commits
-Conventional commits are **required**:
+All commits must follow **Conventional Commits**:
+
 ```
 type(scope): subject
 ```
-- `feat` → minor version bump
-- `fix`, `perf`, `refactor` → patch bump
-- `docs`, `test`, `ci`, `chore` → no release
-- `BREAKING CHANGE:` in footer → major bump
 
-### Code Style (Python projects)
-- Python >= 3.10, type hints everywhere
-- Ruff: line length 88, double quotes
-- `snake_case` functions/vars, `PascalCase` classes, `UPPER_SNAKE` constants
-- Zero shell scripts — all automation in Python
-
-### Testing Layers
-1. **Unit** — fast, isolated, one concern per test
-2. **Integration** — real resource interaction
-3. **Acceptance** — BDD Given-When-Then
-4. **E2E** — complete workflow
-5. **Mutation** — test suite effectiveness
-
-### Coverage
-- Minimum: 60% (CI will fail below this)
-- Target: 95%+ for new code
-
----
-
-## Key Files Reference
-
-| File | Purpose |
-|------|---------|
-| `nWave/framework-catalog.yaml` | Central agent/command/quality-gate registry |
-| `nWave/agents/` | 23 agent specifications |
-| `nWave/tasks/nw/` | 21 slash command definitions |
-| `nWave/skills/` | 98 agent skill files |
-| `src/des/application/orchestrator.py` | DES core orchestration |
-| `pyproject.toml` | Version source of truth |
-| `CLAUDE.md` | Full developer reference |
-
----
-
-## Development Commands
-
-```bash
-# Testing
-pipenv run pytest                          # All tests
-pipenv run pytest tests/des/unit/          # DES unit tests
-pipenv run pytest -m unit                  # All unit tests
-pipenv run pytest --cov                    # With coverage
-
-# Linting
-ruff check src/ scripts/ tests/
-ruff format .
-mypy src/des/
-
-# Build & Install
-python scripts/build_dist.py
-python -m nwave_ai.cli install
-
-# Docs
-python scripts/docgen.py
-```
+| Type | Effect |
+|------|--------|
+| `feat` | Minor version bump |
+| `fix`, `perf`, `refactor` | Patch bump |
+| `docs`, `test`, `ci`, `chore` | No release |
+| `BREAKING CHANGE:` in footer | Major bump |
 
 ---
 
 ## Critical Rules — NEVER:
 
 - Skip a wave without explicit user confirmation and `/nw:fast-forward`
-- Write code before tests exist (Outside-In TDD is mandatory in DELIVER)
-- Use shell scripts — Python only for all automation
-- Hardcode paths — always use `$HOME` or config-driven paths
-- Proceed past a phase boundary without DES validation passing
-- Overwrite audit logs
-- Bump versions manually — semantic-release handles all versioning
+- Write production code before a failing test exists
+- Produce structured output (stories, designs, scenarios, plans) without reading the
+  matching template from `/nWave/templates/`
+- Produce wave output without reading the agent spec from `/nWave/agents/`
+- Ignore skills in `/nWave/skills/` for the active agent
+- Override or ignore constraints in `/nWave/data/wizard-shared-rules.md`
+- Suggest running scripts, hooks, installers, CLI tools, or any executable from this
+  repository — nWave operates through documents and code changes only
+- Reference `scripts/`, `src/des/`, or any Python runtime component — those are internal
+  to the nWave framework development and are not part of the user-facing methodology
 
 ---
 
 ## Getting Started
 
-1. **New feature?** → Type `/nw:new <feature description>` or "start a new feature"
-2. **Resume work?** → Type `/nw:continue` or "where were we"
-3. **Ready to implement?** → You must have completed DISTILL wave first — then `/nw:deliver`
-4. **Code review?** → `/nw:review` or `/nw:rigor` for exhaustive audit
-5. **Something broken?** → `/nw:root-why` for 5-Whys analysis
-
----
-
-## How to Install nWave
-
-```bash
-pip install nwave-ai
-nwave install
-```
-
-This installs the full framework (agents, commands, DES hooks, skills, templates) into your project.
-See the [nWave README](https://github.com/mikrobe/nWave) for full documentation.
+1. **Read** [`/nWave/README.md`](/nWave/README.md) to orient yourself.
+2. **Read** `/nWave/data/wizard-shared-rules.md` — these apply to every wave.
+3. **New feature?** → `/nw:new <feature description>`
+4. **Resume work?** → `/nw:continue`
+5. **Ready to code?** → Complete DISTILL wave first, then `/nw:deliver`
+6. **Review output?** → `/nw:review` or `/nw:rigor` for exhaustive audit
+7. **Something broken?** → `/nw:root-why`
+8. **Extend the framework?** → Use `AGENT_TEMPLATE.md`, `COMMAND_TEMPLATE.md`, or
+   `SKILL_TEMPLATE.md` from `/nWave/templates/`
